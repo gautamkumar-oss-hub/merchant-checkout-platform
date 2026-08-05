@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: checkout-platform
+  template:
+    metadata:
+      labels:
+        app: checkout-platform
+    spec:
+      containers:
+        - name: checkout-platform
+          image: registry.example.com/checkout-platform:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/checkout
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database-secrets
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-secrets
+                  key: password
+            - name: SPRING_REDIS_HOST
+              value: redis
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-platform
+spec:
+  type: ClusterIP
+  selector:
+    app: checkout-platform
+  ports:
+    - port: 8080
+      targetPort: 8080

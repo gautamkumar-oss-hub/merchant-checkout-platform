@@ -22,9 +22,14 @@ pipeline {
         sh 'mvn -B test'
       }
     }
+    stage('Verify') {
+      steps {
+        sh 'mvn -B verify'
+      }
+    }
     stage('Containerize') {
       steps {
-        sh 'docker build -t ${REGISTRY}/${IMAGE_NAME}:latest .'
+        sh 'docker build --pull -t ${REGISTRY}/${IMAGE_NAME}:latest .'
       }
     }
     stage('Deploy') {

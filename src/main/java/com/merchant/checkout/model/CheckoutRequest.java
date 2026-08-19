@@ -2,6 +2,9 @@ package com.merchant.checkout.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
 import java.util.List;
 
 public class CheckoutRequest {
@@ -10,6 +13,8 @@ public class CheckoutRequest {
     private String customerId;
 
     @NotNull
+    @Size(min = 1)
+    @Valid
     private List<CartItem> items;
 
     public String getCustomerId() {
@@ -33,6 +38,7 @@ public class CheckoutRequest {
         private String productId;
 
         @NotNull
+        @Positive
         private Integer quantity;
 
         public String getProductId() {

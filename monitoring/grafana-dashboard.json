@@ -1,0 +1,25 @@
+{
+  "title": "Merchant Checkout Platform",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Confirmed orders",
+      "targets": [{"expr": "sum(checkout_orders_confirmed_total)"}],
+      "gridPos": {"h": 5, "w": 8, "x": 0, "y": 0}
+    },
+    {
+      "type": "stat",
+      "title": "Inventory reservations",
+      "targets": [{"expr": "sum(checkout_orders_inventory_reserved_total)"}],
+      "gridPos": {"h": 5, "w": 8, "x": 8, "y": 0}
+    },
+    {
+      "type": "timeseries",
+      "title": "Order processing rate",
+      "targets": [{"expr": "rate(checkout_orders_confirmed_total[5m])"}],
+      "gridPos": {"h": 8, "w": 16, "x": 0, "y": 5}
+    }
+  ]
+}

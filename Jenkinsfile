@@ -29,7 +29,9 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        echo 'Deploy stage placeholder - configure Kubernetes deploy steps here.'
+        sh 'kubectl apply -f k8s/dependencies.yaml'
+        sh 'kubectl apply -f k8s/deployment.yaml'
+        sh 'kubectl apply -f k8s/monitoring.yaml'
       }
     }
   }

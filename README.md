@@ -49,13 +49,12 @@ The service is designed around the following components:
 
 ## Usage
 
-> Replace this section with your actual run instructions once the source code is available.
-
-1. Build the Spring Boot service with Maven or Gradle.
-2. Start PostgreSQL, Redis, and RabbitMQ.
-3. Deploy the service locally or to Kubernetes.
-4. Use `POST /checkout` with an idempotency key to create an order.
+1. Start PostgreSQL, Redis, and RabbitMQ locally, or deploy `k8s/dependencies.yaml`.
+2. Build the service with `mvn clean package` and run `java -jar target/checkout-platform-0.1.0.jar`.
+3. Save a cart with `POST /carts`, retrieve it with `GET /carts/{cartId}`, and remove it with `DELETE /carts/{cartId}`.
+4. Create an order with `POST /checkout` and an `Idempotency-Key`. The API returns immediately while inventory and confirmation events are processed through RabbitMQ.
+5. Scrape `/actuator/prometheus` with Prometheus and import `monitoring/grafana-dashboard.json` into Grafana.
 
 ## Notes
 
-This repository currently contains the project README and license. Add the application source, configuration, Docker manifests, and CI/CD pipeline files to complete the implementation.
+The application uses environment variables for dependency hosts and credentials, and the test profile uses an embedded H2 database so the test suite requires no external data or services.
